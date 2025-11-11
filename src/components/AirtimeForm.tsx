@@ -10,6 +10,8 @@ const AirtimeForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [amount, setAmount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [useSameNumber, setUseSameNumber] = useState(true);
+  const [recipientNumber, setRecipientNumber] = useState("");
 
   const networks = [
     { name: "Safaricom", color: "bg-[#00B14F]" },
@@ -83,7 +85,7 @@ const AirtimeForm = () => {
 
               {/* Phone Number */}
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number</Label>
+                <Label htmlFor="phone">Number To Pay</Label>
                 <div className="relative">
                   <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                   <Input
@@ -97,6 +99,39 @@ const AirtimeForm = () => {
                   />
                 </div>
               </div>
+
+              {/* Same Number Checkbox */}
+              <div className="flex items-center space-x-2 p-3 rounded-lg border bg-muted/30">
+                <input
+                  type="checkbox"
+                  id="sameNumber"
+                  checked={useSameNumber}
+                  onChange={(e) => setUseSameNumber(e.target.checked)}
+                  className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
+                />
+                <Label htmlFor="sameNumber" className="cursor-pointer text-sm">
+                  Use same number to receive package
+                </Label>
+              </div>
+
+              {/* Recipient Number (Conditional) */}
+              {!useSameNumber && (
+                <div className="space-y-2">
+                  <Label htmlFor="recipient">No. To Receive Package</Label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                    <Input
+                      id="recipient"
+                      type="tel"
+                      placeholder="0712345678"
+                      value={recipientNumber}
+                      onChange={(e) => setRecipientNumber(e.target.value)}
+                      className="pl-10"
+                      maxLength={10}
+                    />
+                  </div>
+                </div>
+              )}
 
               {/* Amount */}
               <div className="space-y-2">
@@ -143,6 +178,30 @@ const AirtimeForm = () => {
               >
                 {isLoading ? "Processing..." : "Pay with M-Pesa"}
               </Button>
+
+              {/* Trust Badges */}
+              <div className="grid grid-cols-3 gap-4 pt-2">
+                <div className="flex flex-col items-center gap-1">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Phone className="w-5 h-5 text-primary" />
+                  </div>
+                  <span className="text-xs text-muted-foreground">All Networks</span>
+                </div>
+                <div className="flex flex-col items-center gap-1">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <DollarSign className="w-5 h-5 text-primary" />
+                  </div>
+                  <span className="text-xs text-muted-foreground">Instant</span>
+                </div>
+                <div className="flex flex-col items-center gap-1">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                  </div>
+                  <span className="text-xs text-muted-foreground">Secure</span>
+                </div>
+              </div>
 
               <p className="text-xs text-center text-muted-foreground">
                 By proceeding, you agree to our terms and conditions. 
