@@ -1,16 +1,34 @@
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "./ui/button";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setIsMenuOpen(false);
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
     }
+    setIsMenuOpen(false);
+  };
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    setIsMenuOpen(false);
   };
 
   return (
@@ -28,37 +46,37 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
             <button
-              onClick={() => scrollToSection("airtime")}
+              onClick={() => handleNavigation("/")}
               className="text-foreground hover:text-primary transition-fast"
             >
-              Airtime
+              Home
             </button>
             <button
-              onClick={() => scrollToSection("data")}
+              onClick={() => handleNavigation("/data")}
               className="text-foreground hover:text-primary transition-fast"
             >
-              Data Bundles
+              Data
             </button>
             <button
               onClick={() => scrollToSection("sms")}
               className="text-foreground hover:text-primary transition-fast"
             >
-              SMS & Minutes
+              SMS
             </button>
             <button
-              onClick={() => scrollToSection("testimonials")}
+              onClick={() => scrollToSection("sms")}
               className="text-foreground hover:text-primary transition-fast"
             >
-              Reviews
+              Minutes
             </button>
             <button
               onClick={() => scrollToSection("contact")}
               className="text-foreground hover:text-primary transition-fast"
             >
-              Contact
+              Help
             </button>
             <Button onClick={() => scrollToSection("airtime")} size="sm">
-              Buy Now
+              Buy Airtime
             </Button>
           </nav>
 
@@ -76,37 +94,37 @@ const Header = () => {
           <nav className="md:hidden py-4 border-t border-border">
             <div className="flex flex-col gap-3">
               <button
-                onClick={() => scrollToSection("airtime")}
+                onClick={() => handleNavigation("/")}
                 className="text-left px-4 py-2 hover:bg-secondary rounded-lg transition-fast"
               >
-                Airtime
+                Home
               </button>
               <button
-                onClick={() => scrollToSection("data")}
+                onClick={() => handleNavigation("/data")}
                 className="text-left px-4 py-2 hover:bg-secondary rounded-lg transition-fast"
               >
-                Data Bundles
+                Data
               </button>
               <button
                 onClick={() => scrollToSection("sms")}
                 className="text-left px-4 py-2 hover:bg-secondary rounded-lg transition-fast"
               >
-                SMS & Minutes
+                SMS
               </button>
               <button
-                onClick={() => scrollToSection("testimonials")}
+                onClick={() => scrollToSection("sms")}
                 className="text-left px-4 py-2 hover:bg-secondary rounded-lg transition-fast"
               >
-                Reviews
+                Minutes
               </button>
               <button
                 onClick={() => scrollToSection("contact")}
                 className="text-left px-4 py-2 hover:bg-secondary rounded-lg transition-fast"
               >
-                Contact
+                Help
               </button>
               <Button onClick={() => scrollToSection("airtime")} className="mx-4">
-                Buy Now
+                Buy Airtime
               </Button>
             </div>
           </nav>
