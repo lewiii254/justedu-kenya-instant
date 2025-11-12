@@ -9,11 +9,13 @@ import SmsBundles from "@/components/SmsBundles";
 import Testimonials from "@/components/Testimonials";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import ProductOfTheDay from "@/components/ProductOfTheDay";
 
 const Index = () => {
   return (
     <div className="min-h-screen">
       <Header />
+      <ProductOfTheDay />
       <main>
         <Hero />
         <Features />
