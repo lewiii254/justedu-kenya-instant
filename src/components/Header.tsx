@@ -58,13 +58,13 @@ const Header = () => {
               Data
             </button>
             <button
-              onClick={() => scrollToSection("sms")}
+              onClick={() => handleNavigation("/sms")}
               className="text-foreground hover:text-primary transition-fast"
             >
               SMS
             </button>
             <button
-              onClick={() => scrollToSection("sms")}
+              onClick={() => handleNavigation("/minutes")}
               className="text-foreground hover:text-primary transition-fast"
             >
               Minutes
@@ -106,13 +106,13 @@ const Header = () => {
                 Data
               </button>
               <button
-                onClick={() => scrollToSection("sms")}
+                onClick={() => handleNavigation("/sms")}
                 className="text-left px-4 py-2 hover:bg-secondary rounded-lg transition-fast"
               >
                 SMS
               </button>
               <button
-                onClick={() => scrollToSection("sms")}
+                onClick={() => handleNavigation("/minutes")}
                 className="text-left px-4 py-2 hover:bg-secondary rounded-lg transition-fast"
               >
                 Minutes
