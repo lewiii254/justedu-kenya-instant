@@ -5,6 +5,7 @@ import { Label } from "./ui/label";
 import { Checkbox } from "./ui/checkbox";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 interface PurchaseDialogProps {
   open: boolean;
@@ -17,8 +18,9 @@ const PurchaseDialog = ({ open, onOpenChange, bundleName, bundlePrice }: Purchas
   const [paymentNumber, setPaymentNumber] = useState("");
   const [useSameNumber, setUseSameNumber] = useState(true);
   const [recipientNumber, setRecipientNumber] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleConfirmPurchase = () => {
+  const handleConfirmPurchase = async () => {
     if (!paymentNumber) {
       toast.error("Please enter a phone number to pay");
       return;
@@ -29,15 +31,42 @@ const PurchaseDialog = ({ open, onOpenChange, bundleName, bundlePrice }: Purchas
       return;
     }
 
-    toast.success("STK Push sent! Please check your phone to complete payment.");
-    onOpenChange(false);
-    
-    // Reset form
-    setTimeout(() => {
-      setPaymentNumber("");
-      setUseSameNumber(true);
-      setRecipientNumber("");
-    }, 300);
+    setIsProcessing(true);
+
+    try {
+      // Call the M-Pesa STK Push function
+      const { data, error } = await supabase.functions.invoke('mpesa-stk-push', {
+        body: {
+          phoneNumber: paymentNumber,
+          amount: bundlePrice,
+          bundleName: bundleName,
+          recipientNumber: useSameNumber ? paymentNumber : recipientNumber,
+        },
+      });
+
+      if (error) {
+        console.error('Payment error:', error);
+        toast.error("Failed to initiate payment. Please try again.");
+        return;
+      }
+
+      console.log('Payment initiated:', data);
+      toast.success("STK Push sent! Please check your phone to complete payment.");
+      onOpenChange(false);
+      
+      // Reset form
+      setTimeout(() => {
+        setPaymentNumber("");
+        setUseSameNumber(true);
+        setRecipientNumber("");
+      }, 300);
+
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      toast.error("An error occurred. Please try again.");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -93,8 +122,9 @@ const PurchaseDialog = ({ open, onOpenChange, bundleName, bundlePrice }: Purchas
             className="w-full" 
             size="lg"
             onClick={handleConfirmPurchase}
+            disabled={isProcessing}
           >
-            Confirm Purchase
+            {isProcessing ? "Processing..." : "Confirm Purchase"}
           </Button>
         </div>
       </DialogContent>
