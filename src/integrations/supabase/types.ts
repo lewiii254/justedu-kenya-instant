@@ -14,7 +14,137 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bundles: {
+        Row: {
+          amount: number
+          created_at: string | null
+          description: string | null
+          features: string[] | null
+          id: string
+          is_active: boolean | null
+          name: string
+          price: number
+          type: string
+          validity: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          description?: string | null
+          features?: string[] | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          price: number
+          type: string
+          validity?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          description?: string | null
+          features?: string[] | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          price?: number
+          type?: string
+          validity?: string | null
+        }
+        Relationships: []
+      }
+      loyalty_points: {
+        Row: {
+          created_at: string | null
+          id: string
+          phone_number: string
+          points: number | null
+          total_spent: number | null
+          total_transactions: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          phone_number: string
+          points?: number | null
+          total_spent?: number | null
+          total_transactions?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          phone_number?: string
+          points?: number | null
+          total_spent?: number | null
+          total_transactions?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          amount: number
+          bundle_id: string | null
+          bundle_name: string
+          checkout_request_id: string | null
+          created_at: string | null
+          id: string
+          mpesa_receipt: string | null
+          mpesa_request_id: string | null
+          phone_number: string
+          recipient_number: string | null
+          result_code: string | null
+          result_description: string | null
+          status: string
+          transaction_date: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          bundle_id?: string | null
+          bundle_name: string
+          checkout_request_id?: string | null
+          created_at?: string | null
+          id?: string
+          mpesa_receipt?: string | null
+          mpesa_request_id?: string | null
+          phone_number: string
+          recipient_number?: string | null
+          result_code?: string | null
+          result_description?: string | null
+          status?: string
+          transaction_date?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          bundle_id?: string | null
+          bundle_name?: string
+          checkout_request_id?: string | null
+          created_at?: string | null
+          id?: string
+          mpesa_receipt?: string | null
+          mpesa_request_id?: string | null
+          phone_number?: string
+          recipient_number?: string | null
+          result_code?: string | null
+          result_description?: string | null
+          status?: string
+          transaction_date?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_bundle_id_fkey"
+            columns: ["bundle_id"]
+            isOneToOne: false
+            referencedRelation: "bundles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
