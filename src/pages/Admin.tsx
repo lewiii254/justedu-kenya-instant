@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import { User, Session } from "@supabase/supabase-js";
 import { Loader2, LogOut } from "lucide-react";
 
+const ADMIN_EMAIL = "ngondimarklewis@gmail.com";
+
 const Admin = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
@@ -31,7 +33,7 @@ const Admin = () => {
         
         if (session?.user) {
           setTimeout(() => {
-            checkAdminStatus(session.user.id);
+            checkAdminStatus(session.user.email);
           }, 0);
         } else {
           setIsAdmin(false);
@@ -46,7 +48,7 @@ const Admin = () => {
       setUser(session?.user ?? null);
       
       if (session?.user) {
-        checkAdminStatus(session.user.id);
+        checkAdminStatus(session.user.email);
       } else {
         setLoading(false);
       }
@@ -55,23 +57,13 @@ const Admin = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const checkAdminStatus = async (userId: string) => {
+  const checkAdminStatus = async (userEmail?: string) => {
     try {
-      const { data, error } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', userId)
-        .eq('role', 'admin')
-        .single();
-
-      if (error && error.code !== 'PGRST116') {
-        console.error('Error checking admin status:', error);
-        setIsAdmin(false);
+      if (userEmail === ADMIN_EMAIL) {
+        setIsAdmin(true);
+        fetchOrders();
       } else {
-        setIsAdmin(!!data);
-        if (data) {
-          fetchOrders();
-        }
+        setIsAdmin(false);
       }
     } catch (error) {
       console.error('Error:', error);
