@@ -4,24 +4,24 @@ import Features from "@/components/Features";
 import AirtimeForm from "@/components/AirtimeForm";
 import DataBundles from "@/components/DataBundles";
 import SimpleSteps from "@/components/SimpleSteps";
-import SpecialOffers from "@/components/SpecialOffers";
 import SmsBundles from "@/components/SmsBundles";
 import Testimonials from "@/components/Testimonials";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import ProductOfTheDay from "@/components/ProductOfTheDay";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
 const Index = () => {
   return (
     <div className="min-h-screen">
       <Header />
       <ProductOfTheDay />
+      <FloatingWhatsApp />
       <main>
         <Hero />
         <Features />
         <AirtimeForm />
         <SimpleSteps />
-        <SpecialOffers />
         <DataBundles />
         <SmsBundles />
         <Testimonials />
