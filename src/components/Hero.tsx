@@ -95,21 +95,28 @@ const Hero = () => {
           {/* Right Content - Illustration placeholder */}
           <div className="hidden lg:block">
             <div className="relative">
-              <div className="aspect-square rounded-3xl bg-gradient-hero p-8 flex items-center justify-center shadow-2xl">
-                <div className="text-center space-y-4">
-                  <div className="w-32 h-32 mx-auto rounded-full bg-primary-foreground/20 backdrop-blur-sm flex items-center justify-center">
-                    <Zap className="w-16 h-16 text-primary-foreground" />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-2xl"></div>
+              <div className="relative bg-background/80 backdrop-blur-sm rounded-3xl p-8 border border-border">
+                <div className="space-y-6">
+                  {/* M-Pesa Badge */}
+                  <div className="bg-primary text-primary-foreground px-6 py-3 rounded-2xl inline-flex items-center gap-2 font-semibold text-lg">
+                    <Shield className="w-5 h-5" />
+                    M-Pesa Secure
                   </div>
-                  <h3 className="text-2xl font-bold text-primary-foreground">Lightning Fast</h3>
-                  <p className="text-primary-foreground/90">Instant delivery to all networks</p>
+
+                  {/* Decorative elements */}
+                  <div className="space-y-4">
+                    <div className="h-16 bg-primary/10 rounded-xl animate-pulse"></div>
+                    <div className="h-24 bg-accent/10 rounded-xl animate-pulse delay-75"></div>
+                    <div className="h-20 bg-primary/10 rounded-xl animate-pulse delay-150"></div>
+                  </div>
+
+                  {/* Support Badge */}
+                  <div className="bg-accent/20 text-accent-foreground px-6 py-3 rounded-2xl inline-flex items-center gap-2 font-semibold">
+                    <CheckCircle className="w-5 h-5" />
+                    24/7 Support
+                  </div>
                 </div>
-              </div>
-              {/* Floating elements */}
-              <div className="absolute -top-6 -right-6 w-24 h-24 bg-accent rounded-2xl shadow-xl flex items-center justify-center animate-bounce">
-                <span className="text-2xl font-bold text-accent-foreground">M-Pesa</span>
-              </div>
-              <div className="absolute -bottom-6 -left-6 w-28 h-28 bg-primary rounded-2xl shadow-xl flex items-center justify-center">
-                <span className="text-3xl font-bold text-primary-foreground">24/7</span>
               </div>
             </div>
           </div>

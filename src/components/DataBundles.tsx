@@ -1,11 +1,24 @@
+import { useState } from "react";
 import { Wifi, Clock, Repeat } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { toast } from "sonner";
+import PurchaseDialog from "./PurchaseDialog";
+
+interface Bundle {
+  id: number;
+  name: string;
+  data: string;
+  validity: string;
+  price: number;
+  popular?: boolean;
+}
 
 const DataBundles = () => {
-  const bundles = [
+  const [selectedBundle, setSelectedBundle] = useState<Bundle | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const bundles: Bundle[] = [
     {
       id: 1,
       name: "1 Hour Bundle",
@@ -56,13 +69,9 @@ const DataBundles = () => {
     },
   ];
 
-  const handleBuyBundle = (bundle: typeof bundles[0]) => {
-    toast.success(`Selected ${bundle.name}. Please enter your phone number to proceed.`);
-    // Scroll to airtime form or open modal
-    const element = document.getElementById("airtime");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+  const handleBuyBundle = (bundle: Bundle) => {
+    setSelectedBundle(bundle);
+    setDialogOpen(true);
   };
 
   return (
@@ -136,6 +145,13 @@ const DataBundles = () => {
           ))}
         </div>
       </div>
+
+      <PurchaseDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        bundleName={selectedBundle?.name || ""}
+        bundlePrice={selectedBundle?.price || 0}
+      />
     </section>
   );
 };
